@@ -1,0 +1,21 @@
+{
+  "name": "svelte-xstate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html --no-hmr"
+  },
+  "keywords": [],
+  "author": "Pat Cavit <npm@patcavit.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "parcel-bundler": "^1.9.2",
+    "parcel-plugin-svelte": "^1.2.1",
+    "svelte": "^2.7.2"
+  },
+  "dependencies": {
+    "xstate": "^3.3.2"
+  }
+}
