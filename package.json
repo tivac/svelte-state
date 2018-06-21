@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html --no-hmr"
+    "start": "parcel src/index.html"
   },
   "keywords": [],
   "author": "Pat Cavit <npm@patcavit.com>",
@@ -12,8 +12,8 @@
   "private": true,
   "devDependencies": {
     "parcel-bundler": "^1.9.2",
-    "parcel-plugin-svelte": "^1.2.1",
-    "svelte": "^2.7.2"
+    "parcel-plugin-svelte": "^1.2.2",
+    "svelte": "^2.8.0"
   },
   "dependencies": {
     "xstate": "^3.3.2"
