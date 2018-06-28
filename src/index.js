@@ -1,5 +1,5 @@
-import App from "./app.svelte";
+import App from "./app.html";
 
 new App({
-    target : document.body
+    target : document.body,
 });
