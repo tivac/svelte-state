@@ -20,8 +20,9 @@ module.exports = {
         require("rollup-plugin-livereload")({
             watch : "./dist",
         }),
+        
         require("rollup-plugin-serve")({
-            contentBase : [ "./dist" ],
+            contentBase : [ "./" ],
         }),
     ],
 };

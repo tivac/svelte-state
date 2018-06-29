@@ -1,37 +1,51 @@
-<h1>HI</h1>
+<a href="#HOME" use:link>home</a>
+<a href="#ONE" use:link>one</a>
+<a href="#TWO" use:link>two</a>
+<a href="#THREE" use:link>three</a>
+
+<svelte:component this={pages[page]} />
 
 <script>
-    import { Machine } from "xstate";
+    import link from "./link.js";
 
-    const machine = Machine({
-        key: 'light',
-        initial: 'green',
-        states: {
-            green: {
-                on: {
-                    TIMER: 'yellow',
-                }
-            },
-            yellow: {
-                on: {
-                    TIMER: 'red',
-                }
-            },
-            red: {
-                on: {
-                    TIMER: 'green',
-                }
+    import { state, emitter } from "./state.js";
+
+    import Home from "./home.html";
+    import One from "./one.html";
+    import Two from "./two.html";
+    import Three from "./three.html";
+
+    const capitalize = (str) => str.slice(0, 1).toUpperCase() + str.slice(1);
+
+    export default {
+        actions : {
+            link
+        },
+
+        data : () => ({
+            page : capitalize(state.value),
+            pages : {
+                Home,
+                One,
+                Two,
+                Three
             }
+        }),
+
+        oncreate() {
+            emitter.on("state", ({ value }) => {
+                // simple string
+                if(typeof value === "string") {
+                    return this.set({
+                        page : capitalize(value)
+                    });
+                }
+
+                // Nested states
+                return this.set({
+                    page : capitalize(Object.keys(value)[0])
+                });
+            });
         }
-    });
-
-    let state = machine.initialState;
-
-    let next = machine.transition(state, "TIMER");
-
-    console.log(next);
-
-    next = machine.transition(next, "TIMER");
-
-    console.log(next);
+    };
 </script>

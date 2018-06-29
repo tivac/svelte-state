@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html"
+    "start": "rollup --config --watch"
   },
   "keywords": [],
   "author": "Pat Cavit <npm@patcavit.com>",
@@ -12,6 +12,8 @@
   "private": true,
   "devDependencies": {
     "@tivac/eslint-config": "^2.2.1",
+    "catch-links": "^2.0.1",
+    "emittery": "^0.4.0",
     "eslint": "^5.0.1",
     "modular-css-rollup": "^12.1.0",
     "rollup": "^0.62.0",
@@ -20,9 +22,8 @@
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-serve": "^0.4.2",
     "rollup-plugin-svelte": "^4.1.0",
-    "svelte": "^2.8.0"
-  },
-  "dependencies": {
+    "svelte": "^2.8.0",
+    "local-link": "^1.0.1",
     "xstate": "^3.3.2"
   }
 }
