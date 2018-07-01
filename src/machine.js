@@ -1,15 +1,29 @@
+import Emitter from "emittery";
+
 const key = (state, name) => `${state}->${name}`;
 
 class Machine {
     constructor(config) {
         this.config = config;
 
-        this.states = this.setupStates();
-        this.transitions = this.setupTransitions();
+        this.emitter = this._setupEmitter();
+        this.states = this._setupStates();
+        this.transitions = this._setupTransitions();
+
         this.state = config.initial || config.states[0];
     }
 
-    setupStates() {
+    _setupEmitter() {
+        const emitter = new Emitter();
+
+        [ "on", "off", "once", "onAny", "offAny" ].forEach((fn) => {
+            this[fn] = emitter[fn].bind(emitter);
+        });
+
+        return emitter;
+    }
+
+    _setupStates() {
         const states = new Map();
         const local = this.config.states.slice().sort();
         
@@ -17,13 +31,13 @@ class Machine {
             const parts = state.split("/").slice(1);
 
             parts.forEach((part, idx) => {
-                const id = `/${part}`;
+                const id = `/${parts.slice(0, idx + 1).join("/")}`;
 
                 if(states.has(id)) {
                     return;
                 }
 
-                const parent = parts[idx - 1] ? `/${parts[idx - 1]}` : null;
+                const parent = idx > 0 ? `/${parts.slice(0, idx).join("/")}` : null;
 
                 if(parent) {
                     const { children } = states.get(parent);
@@ -42,13 +56,13 @@ class Machine {
         return states;
     }
 
-    setupTransitions() {
+    _setupTransitions() {
         const transitions = new Map();
         const local = this.config.transitions;
 
         local.forEach(([ event, sources, dest ]) => {
             sources.forEach((source) => {
-                const { children } = map.get(dest);
+                const { children } = this.states.get(dest);
 
                 // Iterators are ridiculous-looking, fyi
                 const result = children.size ? children.values().next().value : dest;
@@ -62,23 +76,45 @@ class Machine {
         return transitions;
     }
 
-    // TODO: handle options
-    trigger(event, options) {
-        let current = this.states.get(this.state);
+    findTransition(event) {
+        const { state, states, transitions } = this;
+
+        let current = states.get(state);
         let id = key(current.state, event);
-        let transition = this.transitions.get(id);
+        let transition = transitions.get(id);
 
         while(!transition && current.parent) {
-            current = this.states.get(current.parent);
+            current = states.get(current.parent);
             id = key(current.state, event);
-            transition = this.transitions.get(id);
+            transition = transitions.get(id);
         }
+
+        return transition;
+    }
+
+    // TODO: what are options?
+    trigger(event, options) {
+        const { state : state, emitter } = this;
+        
+        const transition = this.findTransition(event);
 
         if(!transition) {
-            throw new Error(`Unknown transition: ${this.state} -> ${event}`);
+            throw new Error(`Unknown transition: ${state} -> ${event}`);
         }
 
-        this.state = transition.dest;
+        const { dest : curr } = transition;
+
+        const details = {
+            prev : this.states.get(state),
+            curr : this.states.get(curr),
+        };
+
+        emitter.emit(`exit`, details);
+        emitter.emit(`exit:${state}`, details);
+        emitter.emit(`enter`, details);
+        emitter.emit(`enter:${curr}`, details);
+
+        this.state = curr;
     }
 }
 
