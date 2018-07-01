@@ -1,1 +1,1 @@
-# svelte-xstate
+# svelte-state

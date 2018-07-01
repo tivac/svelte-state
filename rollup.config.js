@@ -2,8 +2,9 @@
 module.exports = {
     input  : "./src/index.js",
     output : {
-        file   : "./dist/bundle.js",
-        format : "iife",
+        file      : "./dist/bundle.js",
+        format    : "iife",
+        sourcemap : true,
     },
 
     plugins : [
