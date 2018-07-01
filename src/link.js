@@ -1,6 +1,6 @@
 import localLink from "local-link";
 
-import { transition } from "./state.js";
+import { transition } from "./xstate.js";
 
 const link = (node) => {
     const handler = (e) => {

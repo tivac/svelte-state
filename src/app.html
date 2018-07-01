@@ -1,51 +1,53 @@
+<!--
 <a href="#HOME" use:link>home</a>
 <a href="#ONE" use:link>one</a>
 <a href="#TWO" use:link>two</a>
 <a href="#THREE" use:link>three</a>
 
 <svelte:component this={pages[page]} />
+-->
 
 <script>
     import link from "./link.js";
 
-    import { state, emitter } from "./state.js";
+    import { state, emitter } from "./xstate.js";
 
-    import Home from "./home.html";
-    import One from "./one.html";
-    import Two from "./two.html";
-    import Three from "./three.html";
+    // import Home from "./home.html";
+    // import One from "./one.html";
+    // import Two from "./two.html";
+    // import Three from "./three.html";
 
-    const capitalize = (str) => str.slice(0, 1).toUpperCase() + str.slice(1);
+    // const capitalize = (str) => str.slice(0, 1).toUpperCase() + str.slice(1);
 
-    export default {
-        actions : {
-            link
-        },
+    // export default {
+    //     actions : {
+    //         link
+    //     },
 
-        data : () => ({
-            page : capitalize(state.value),
-            pages : {
-                Home,
-                One,
-                Two,
-                Three
-            }
-        }),
+    //     data : () => ({
+    //         page : capitalize(state.value),
+    //         pages : {
+    //             Home,
+    //             One,
+    //             Two,
+    //             Three
+    //         }
+    //     }),
 
-        oncreate() {
-            emitter.on("state", ({ value }) => {
-                // simple string
-                if(typeof value === "string") {
-                    return this.set({
-                        page : capitalize(value)
-                    });
-                }
+    //     oncreate() {
+    //         emitter.on("state", ({ value }) => {
+    //             // simple string
+    //             if(typeof value === "string") {
+    //                 return this.set({
+    //                     page : capitalize(value)
+    //                 });
+    //             }
 
-                // Nested states
-                return this.set({
-                    page : capitalize(Object.keys(value)[0])
-                });
-            });
-        }
-    };
+    //             // Nested states
+    //             return this.set({
+    //                 page : capitalize(Object.keys(value)[0])
+    //             });
+    //         });
+    //     }
+    // };
 </script>

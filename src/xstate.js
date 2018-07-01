@@ -55,7 +55,11 @@ const emitter = new Emitter();
 const transition = (event, args) => {
     state = machine.transition(state, event, args);
 
+    console.log(state);
+
     emitter.emit("state", state);
 }
+
+window.machine = machine;
 
 export { state, transition, emitter };
