@@ -1,53 +1,50 @@
-<!--
+
 <a href="#HOME" use:link>home</a>
 <a href="#ONE" use:link>one</a>
 <a href="#TWO" use:link>two</a>
 <a href="#THREE" use:link>three</a>
 
-<svelte:component this={pages[page]} />
--->
+<svelte:component this={pages[page]} {children} />
 
 <script>
     import link from "./link.js";
 
-    import { state, emitter } from "./xstate.js";
+    import state from "./state.js";
 
-    // import Home from "./home.html";
-    // import One from "./one.html";
-    // import Two from "./two.html";
-    // import Three from "./three.html";
+    import Home from "./home.html";
+    import One from "./one.html";
+    import Two from "./two.html";
+    import Three from "./three.html";
 
-    // const capitalize = (str) => str.slice(0, 1).toUpperCase() + str.slice(1);
+    const capitalize = (str) => str.slice(0, 1).toUpperCase() + str.slice(1);
 
-    // export default {
-    //     actions : {
-    //         link
-    //     },
+    export default {
+        actions : {
+            link
+        },
 
-    //     data : () => ({
-    //         page : capitalize(state.value),
-    //         pages : {
-    //             Home,
-    //             One,
-    //             Two,
-    //             Three
-    //         }
-    //     }),
+        data : () => ({
+            page     : capitalize(state.state.slice(1)),
+            children : null,
+            pages    : {
+                Home,
+                One,
+                Two,
+                Three
+            }
+        }),
 
-    //     oncreate() {
-    //         emitter.on("state", ({ value }) => {
-    //             // simple string
-    //             if(typeof value === "string") {
-    //                 return this.set({
-    //                     page : capitalize(value)
-    //                 });
-    //             }
+        oncreate() {
+            state.on("enter", ({ curr }) => {
+                const [ , ...parts ] = curr.state.split("/");
+                
+                return this.set({
+                    page : capitalize(parts[0]),
+                    children : parts.slice(1)
+                });
+            });
+        },
 
-    //             // Nested states
-    //             return this.set({
-    //                 page : capitalize(Object.keys(value)[0])
-    //             });
-    //         });
-    //     }
-    // };
+        onstate : console.log.bind(console, "onstate")
+    };
 </script>

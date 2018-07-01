@@ -1,1 +1,43 @@
 <h1>ONE</h1>
+
+<a href="#SUBONE" use:link>subone</a>
+<a href="#SUBTWO" use:link>subtwo</a>
+<a href="#SUBTHREE" use:link>subthree</a>
+
+<svelte:component this={pages[child]} />
+
+<script>
+    import link from "./link.js";
+
+    import Subone from "./subone.html";
+    import Subtwo from "./subtwo.html";
+    import Subthree from "./subthree.html";
+
+    export default {
+        actions : {
+            link
+        },
+
+        data : () => ({
+            children : [],
+
+            pages : {
+                subone : Subone,
+                subtwo : Subtwo,
+                subthree : Subthree
+            }
+        }),
+
+        computed : {
+            child({ children }) {
+                return children.length ? children[0] : ""
+            }
+        },
+
+        oncreate() {
+            console.log(arguments);
+        },
+
+        onstate : console.log.bind(console, "one onstate")
+    }
+</script>
