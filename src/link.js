@@ -11,12 +11,9 @@ const link = (node) => {
 
         e.preventDefault();
 
+        // Extract hash and use it as a transition name
         const event = new URL(e.target.href).hash.slice(1);
 
-        // Extract hash and use it as a transition name
-        // transition(new URL(e.target.href).hash.slice(1));
-        console.log("transition", event);
-        
         state.trigger(event);
     };
 
