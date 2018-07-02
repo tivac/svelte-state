@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
     "start": "rollup --config --watch"
   },
   "keywords": [],
@@ -15,6 +16,7 @@
     "catch-links": "^2.0.1",
     "emittery": "^0.4.0",
     "eslint": "^5.0.1",
+    "jest": "^23.2.0",
     "local-link": "^1.0.1",
     "modular-css-rollup": "^12.1.0",
     "rollup": "^0.62.0",
