@@ -1,14 +1,22 @@
 import Machine from "./machine.js";
 
-const states = [
-    "/home",
-    "/one",
-    "/one/subone",
-    "/one/subtwo",
-    "/one/subthree",
-    "/two",
-    "/three",
-];
+import HomeComponent from "./home.html";
+import OneComponent from "./one.html";
+import SuboneComponent from "./subone.html";
+import SubtwoComponent from "./subtwo.html";
+import SubthreeComponent from "./subthree.html";
+import TwoComponent from "./two.html";
+import ThreeComponent from "./three.html";
+
+const states = {
+    "/home"         : HomeComponent,
+    "/one"          : OneComponent,
+    "/one/subone"   : SuboneComponent,
+    "/one/subtwo"   : SubtwoComponent,
+    "/one/subthree" : SubthreeComponent,
+    "/two"          : TwoComponent,
+    "/three"        : ThreeComponent,
+};
 
 const transitions = [
     [ "HOME",  [ "/one", "/two", "/three" ],  "/home" ],
@@ -25,8 +33,5 @@ const machine = new Machine({
     states,
     transitions,
 });
-
-machine.on("exit", console.log.bind(console, "exit"));
-machine.on("enter", console.log.bind(console, "enter"));
 
 export default machine;
