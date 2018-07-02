@@ -37,6 +37,7 @@ class Machine {
                     state    : key,
                     parent   : false,
                     children : new Set(),
+                    data     : false,
                 },
                 this.config.states[key]
             ));
@@ -110,8 +111,7 @@ class Machine {
         return transition;
     }
 
-    // TODO: what are options?
-    trigger(event, options) {
+    trigger(event, data) {
         const { state, emitter } = this;
         
         const transition = this._findTransition(event);
@@ -124,17 +124,24 @@ class Machine {
 
         const details = {
             event,
-            options,
+            data,
             prev : this.states.get(state),
             curr : this.states.get(curr),
         };
 
-        emitter.emit(`exit`, details);
         emitter.emit(`exit:${state}`, details);
-        emitter.emit(`enter`, details);
-        emitter.emit(`enter:${curr}`, details);
+        emitter.emit(`exit`, details);
+
+        const ref = this.states.get(curr);
+
+        ref.data = data;
+
+        this.states.set(curr, ref);
 
         this.state = curr;
+
+        emitter.emit(`enter:${curr}`, details);
+        emitter.emit(`enter`, details);
     }
 
     // TODO: This shares a lot of code w/ trigger(), worth combining somehow?

@@ -4,6 +4,12 @@ import App from "./app.html";
 
 let app;
 
+state.on("enter:/one/subtwo", ({ curr }) => {
+    curr.data = {
+        foo : true,
+    };
+});
+
 state.on("enter", ({ curr }) => {
     // TODO: Assumes single-level component at the root
     if(!app) {
@@ -12,7 +18,7 @@ state.on("enter", ({ curr }) => {
             data   : {
                 page : {
                     child : curr.component,
-                    props : {},
+                    props : curr.data,
                 },
             },
         });
@@ -25,7 +31,7 @@ state.on("enter", ({ curr }) => {
         app.set({
             page : {
                 child : curr.component,
-                props : {},
+                props : curr.data,
             },
         });
 
@@ -45,18 +51,22 @@ state.on("enter", ({ curr }) => {
     components.push(step);
 
     // Create nested data structure to represent the component tree
-    const data = {};
+    const props = {};
 
     components.reverse().reduce((prev, component) => {
         prev.page = {
             child : component.component,
-            props : {},
+
+            // Need to ensure this is always an object or else nesting won't work
+            props : component.data || {},
         };
 
         return prev.page.props;
-    }, data);
+    }, props);
 
-    app.set(data);
+    console.log(props);
+
+    app.set(props);
 });
 
 state.start();
