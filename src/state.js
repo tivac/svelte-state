@@ -1,3 +1,5 @@
+import Emitter from "emittery";
+
 import Machine from "./machine.js";
 
 import HomeComponent from "./home/home.html";
@@ -52,6 +54,8 @@ const transitions = [
 const machine = new Machine({
     states,
     transitions,
+    
+    emitter : new Emitter(),
 });
 
 export default machine;

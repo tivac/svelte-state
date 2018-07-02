@@ -1,5 +1,3 @@
-import Emitter from "emittery";
-
 const name = (state, event) => `${state}->${event}`;
 
 class Machine {
@@ -15,7 +13,7 @@ class Machine {
     }
 
     _setupEmitter() {
-        const emitter = new Emitter();
+        const { emitter } = this.config;
 
         [ "on", "off", "once", "onAny", "offAny" ].forEach((fn) => {
             this[fn] = emitter[fn].bind(emitter);
