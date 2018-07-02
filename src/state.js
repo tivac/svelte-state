@@ -9,13 +9,27 @@ import TwoComponent from "./two.html";
 import ThreeComponent from "./three.html";
 
 const states = {
-    "/home"         : HomeComponent,
-    "/one"          : OneComponent,
-    "/one/subone"   : SuboneComponent,
-    "/one/subtwo"   : SubtwoComponent,
-    "/one/subthree" : SubthreeComponent,
-    "/two"          : TwoComponent,
-    "/three"        : ThreeComponent,
+    "/home" : {
+        component : HomeComponent,
+    },
+    "/one" : {
+        component : OneComponent,
+    },
+    "/one/subone" : {
+        component : SuboneComponent,
+    },
+    "/one/subtwo" : {
+        component : SubtwoComponent,
+    },
+    "/one/subthree" : {
+        component : SubthreeComponent,
+    },
+    "/two" : {
+        component : TwoComponent,
+    },
+    "/three" : {
+        component : ThreeComponent,
+    },
 };
 
 const transitions = [

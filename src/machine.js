@@ -33,14 +33,15 @@ class Machine {
                 throw new Error(`Duplicate state added: ${key}`);
             }
 
-            const component = this.config.states[key];
-
-            states.set(key, {
-                component,
-                state    : key,
-                parent   : false,
-                children : new Set(),
-            });
+            states.set(key, Object.assign(
+                Object.create(null),
+                {
+                    state    : key,
+                    parent   : false,
+                    children : new Set(),
+                },
+                this.config.states[key]
+            ));
 
             const parts = key.split("/").slice(1);
 
