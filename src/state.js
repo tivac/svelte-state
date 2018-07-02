@@ -1,32 +1,38 @@
 import Machine from "./machine.js";
 
-import HomeComponent from "./home.html";
-import OneComponent from "./one.html";
-import SuboneComponent from "./subone.html";
-import SubtwoComponent from "./subtwo.html";
-import SubthreeComponent from "./subthree.html";
-import TwoComponent from "./two.html";
-import ThreeComponent from "./three.html";
+import HomeComponent from "./home/home.html";
+import OneComponent from "./one/one.html";
+import SuboneComponent from "./one/subone.html";
+import SubtwoComponent from "./one/subtwo.html";
+import SubthreeComponent from "./one/subthree.html";
+import TwoComponent from "./two/two.html";
+import ThreeComponent from "./three/three.html";
 
 const states = {
     "/home" : {
         component : HomeComponent,
     },
+
     "/one" : {
         component : OneComponent,
     },
+
     "/one/subone" : {
         component : SuboneComponent,
     },
+
     "/one/subtwo" : {
         component : SubtwoComponent,
     },
+
     "/one/subthree" : {
         component : SubthreeComponent,
     },
+
     "/two" : {
         component : TwoComponent,
     },
+    
     "/three" : {
         component : ThreeComponent,
     },
