@@ -2,7 +2,12 @@ import state from "./state.js";
 
 import App from "./app.html";
 
-let app;
+const app = new App({
+    target : document.body,
+    data   : {
+        page : false,
+    },
+});
 
 state.on("enter:/one/subtwo", ({ curr }) => {
     curr.data = {
@@ -10,34 +15,18 @@ state.on("enter:/one/subtwo", ({ curr }) => {
     };
 });
 
+state.on("enter:/one/subthree", ({ curr }) => new Promise((resolve) => {
+        setTimeout(() => {
+            curr.data = {
+                foo : "subthree data from promise",
+            };
+            
+            resolve();
+        }, 500);
+    }));
+
+
 state.on("enter", ({ curr }) => {
-    // TODO: Assumes single-level component at the root
-    if(!app) {
-        app = new App({
-            target : document.body,
-            data   : {
-                page : {
-                    child : curr.component,
-                    props : curr.data,
-                },
-            },
-        });
-
-        return;
-    }
-
-    // Single level component
-    if(!curr.parent) {
-        app.set({
-            page : {
-                child : curr.component,
-                props : curr.data,
-            },
-        });
-
-        return;
-    }
-
     // Create the list of nested components
     const components = [];
     let step = curr;
@@ -63,9 +52,7 @@ state.on("enter", ({ curr }) => {
 
         return prev.page.props;
     }, props);
-
-    console.log(props);
-
+    
     app.set(props);
 });
 

@@ -111,7 +111,7 @@ class Machine {
         return transition;
     }
 
-    trigger(event, data) {
+    async trigger(event, data) {
         const { state, emitter } = this;
         
         const transition = this._findTransition(event);
@@ -129,8 +129,8 @@ class Machine {
             curr : this.states.get(curr),
         };
 
-        emitter.emit(`exit:${state}`, details);
-        emitter.emit(`exit`, details);
+        await emitter.emitSerial(`exit:${state}`, details);
+        await emitter.emit(`exit`, details);
 
         const ref = this.states.get(curr);
 
@@ -140,12 +140,12 @@ class Machine {
 
         this.state = curr;
 
-        emitter.emit(`enter:${curr}`, details);
-        emitter.emit(`enter`, details);
+        await emitter.emitSerial(`enter:${curr}`, details);
+        await emitter.emit(`enter`, details);
     }
 
     // TODO: This shares a lot of code w/ trigger(), worth combining somehow?
-    start() {
+    async start() {
         const { config, emitter, states } = this;
 
         let curr;
@@ -160,8 +160,8 @@ class Machine {
             curr : states.get(curr),
         };
 
-        emitter.emit(`enter`, details);
-        emitter.emit(`enter:${curr}`, details);
+        await emitter.emit(`enter`, details);
+        await emitter.emitSerial(`enter:${curr}`, details);
 
         this.state = curr;
     }

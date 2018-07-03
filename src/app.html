@@ -3,7 +3,9 @@
 <a href="#TWO" use:link>two</a>
 <a href="#THREE" use:link>three</a>
 
+{#if page}
 <svelte:component this={page.child} {...page.props} />
+{/if}
 
 <script>
     import link from "./link.js";
