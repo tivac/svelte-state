@@ -1,4 +1,4 @@
-const name = (state, event) => `${state}->${event}`;
+const name = (state, event) => `${state}:${event}`;
 
 class Machine {
     constructor(config) {
